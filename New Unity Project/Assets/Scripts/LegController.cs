@@ -23,7 +23,7 @@ public class LegController : MonoBehaviour
     void FixedUpdate()//occurs after the update, with physics checks already done. etc.
     {
 
-        muscle.distance = linearInterpolation(-1, 1, contracted, relaxed, position);
+        muscle.distance = linearInterpolation(-1, 1, contracted, relaxed, position);//moves the leg
 
     }
 

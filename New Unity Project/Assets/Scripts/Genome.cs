@@ -2,7 +2,7 @@ namespace New_Unity_Project.Assets.Scripts
 {
 
     using UnityEngine;
-    public struct Genome
+    public struct Genome//contains both legs, acts as a specific species/version of the species.
     {
         public GenomeLeg left;
         public GenomeLeg right;

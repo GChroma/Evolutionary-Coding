@@ -15,7 +15,7 @@ namespace New_Unity_Project.Assets.Scripts
         public float o;
         public float p;
 
-        public float EvaluateAt(float time)
+        public float EvaluateAt(float time)//use to find position that the leg should be.
         {
             //gives the point on the sin wave at any time.
             return (M - m) / 2 * (1 + Mathf.Sin((time + o) * Mathf.PI * 2 / p)) + m;
@@ -33,7 +33,7 @@ namespace New_Unity_Project.Assets.Scripts
         }
 
         public void Mutate()
-        {//change the values by a relatively small random amount
+        {//change the values of this leg by a relatively small random amount
 
             switch (Random.Range(0, 4))
             {

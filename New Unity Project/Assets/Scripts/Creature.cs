@@ -8,16 +8,17 @@ namespace New_Unity_Project.Assets.Scripts
     {
         public LegController left;
         public LegController right;
+        public Fitness fitness;
         public Genome genome;//genome decides how the Leg Controllers are used.
 
         // Start is called before the first frame update
-        void Start()
+        void Start()//upon being created, create the legs.
         {
 
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
 
             left.position = genome.left.EvaluateAt(Time.time);
