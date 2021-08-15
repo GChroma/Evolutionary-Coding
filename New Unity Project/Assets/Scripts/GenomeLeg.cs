@@ -32,6 +32,16 @@ namespace New_Unity_Project.Assets.Scripts
             return leg;
         }
 
+        public static GenomeLeg CreateRandom()
+        {
+            GenomeLeg leg = new GenomeLeg();
+            leg.m = Random.Range(0f, 1f);
+            leg.M = Random.Range(0f, 1f);
+            leg.o = Random.Range(0f, 1f);
+            leg.p = Random.Range(0f, 1f);
+            return leg;
+        }
+
         public void Mutate()
         {//change the values of this leg by a relatively small random amount
 

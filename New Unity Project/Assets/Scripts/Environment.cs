@@ -7,7 +7,7 @@ namespace New_Unity_Project.Assets.Scripts
 
     public class Environment : MonoBehaviour
     {
-        public Genome genome;
+        public Creature creature;
 
     }
 

@@ -6,6 +6,7 @@ namespace New_Unity_Project.Assets.Scripts
     {
         public GenomeLeg left;
         public GenomeLeg right;
+        public float score;
 
         public Genome Clone()
         {
@@ -13,6 +14,14 @@ namespace New_Unity_Project.Assets.Scripts
             genome.left = left.Clone();//use clone method in Genome Leg to clone it.
             genome.right = right.Clone();
             return genome;
+        }
+        public static Genome CreateRandom()//create a random genome
+        {
+            Genome genome = new Genome();
+            genome.left = GenomeLeg.CreateRandom();
+            genome.right = GenomeLeg.CreateRandom();
+            return genome;
+
         }
 
         public void Mutate()

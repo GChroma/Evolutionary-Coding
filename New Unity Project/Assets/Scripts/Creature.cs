@@ -23,6 +23,7 @@ namespace New_Unity_Project.Assets.Scripts
 
             left.position = genome.left.EvaluateAt(Time.time);
             right.position = genome.right.EvaluateAt(Time.time);
+            genome.score = fitness.GetScore();
         }
     }
 
