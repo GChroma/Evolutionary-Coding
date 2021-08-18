@@ -7,41 +7,151 @@ namespace New_Unity_Project.Assets.Scripts
     public class Evolution : MonoBehaviour
     {
 
-        //instantiate a bunch of environments into a gameobject container
-        //at the same time, create a list of all of the environments
-        //also before that, fill the currentGeneration list with genomes
-        //place the correct genome into the environment.
-        //start the simulation.
+        //create initial genomes to populate from
+
+        //START IENUMERATOR
+        //populate from top25Genomes
+        //Create Environments
+        //wait 10 seconds
+        //naturalSelection
+        //destroy Environments.
 
         public EvolutionHistory history;
         public List<Environment> environments = new List<Environment>();
-        public int creaturesPerGen;
-        public int creaturesSurvived;
+        public int creaturesPerGen = 100;
+        public int testsPerCreature = 1;
+        public int creaturesSurvived = 10;
+        public int simulationLength = 10;//in seconds
+        public int cycles = 10;
+        public GameObject environmentContainer;
+        public GameObject prefab;
 
         // Start is called before the first frame update
         void Start()
         {
             history.Clear();
+            prepareCreatures(history);
+            StartCoroutine(Simulation());
+
         }
 
-        public void prepareCreatures(EvolutionHistory history)
+        public void prepareCreatures(EvolutionHistory history)//create genomes to repopulate from
         {
-            for (int i = 0; i < creaturesSurvived; i++)
+            for (int i = 0; i < creaturesPerGen; i++)
             {
-                history.top25Genomes.Add(Genome.CreateRandom());
+                history.currentGeneration.Add(Genome.CreateRandom());
+            }
+        }
+
+        public void createEnvironments(EvolutionHistory history, List<Environment> environments)//spawns environments using the current generation
+        {
+            for (int i = 0; i < creaturesPerGen; i++)
+            {
+                for (int t = 0; t < testsPerCreature; t++)
+                {
+                    GameObject environmentObject = Instantiate(prefab, new Vector3(0, ((-i * 12) + (t * 4)), 0), Quaternion.identity, environmentContainer.transform);
+                    Environment environment = environmentObject.GetComponent<Environment>();
+                    environment.creature.genome = history.currentGeneration[i];
+                    environment.transform.parent = environmentContainer.transform;
+                    environment.name = "creature " + i + ". Test " + t;
+                    environments.Add(environment);
+                }
+
+            }
+        }
+
+        public void destroyEnvironments(List<Environment> environments)//clear environments list and also destroy environment game objects
+        {
+            foreach (Transform child in environmentContainer.transform)
+            {
+                GameObject.Destroy(child.gameObject);
             }
 
+            environments.Clear();
+        }
+
+        public void repopulate(EvolutionHistory history)//clones and mutates the top genomes 5 times each.
+        {
+            history.currentGeneration.Clear();
+            int cloneAmount = creaturesPerGen / creaturesSurvived;
+            foreach (Genome genome in history.top25Genomes)
+            {
+                history.currentGeneration.Add(genome);//keep one of the same
+
+                for (int i = 0; i < cloneAmount - 1; i++)//clone and mutate the rest
+                {
+                    Genome newGenome = genome.Clone();
+                    newGenome.Mutate();
+                    history.currentGeneration.Add(newGenome);
+
+                }
+            }
+        }
+
+        public void naturalSelection(EvolutionHistory history, List<Environment> environments)//moves the best 25% genomes to allow them to reproduce.
+        {//also puts the top per the generation into a list
+            int counter = 0;
+            bool maxChosen = false;
+            history.top25Genomes.Clear();
+            history.Evaluate(environments, this);
+            Debug.Log("cutoff score " + history.cutOffScore);
+            Debug.Log("max score " + history.maxScore);
+            Debug.Log("min score " + history.minScore);
+
+            foreach (Environment environment in environments)
+            {
+                //Debug.Log("Genome score: " + environment.creature.genome.score);
+                if (counter == creaturesSurvived)
+                {
+                    break;
+                }
+
+                if (environment.creature.genome.score >= history.cutOffScore)
+                {
+                    history.top25Genomes.Add(environment.creature.genome);
+                    counter++;
+                }
+
+                if (environment.creature.genome.score == history.maxScore && maxChosen == false)
+                {
+                    history.bestPerGen.Add(environment.creature.genome);
+                    maxChosen = true;
+
+                }
+
+            }
+            Debug.Log("Number survived " + history.top25Genomes.Count);
 
         }
 
+        public IEnumerator Simulation()
+        {
+            for (int i = 0; i < cycles; i++)
+            {
+                Debug.Log("Cycle: " + i);
+                createEnvironments(history, environments);
+                yield return new WaitForSeconds(simulationLength);
 
-        // Update is called once per frame
+                naturalSelection(history, environments);
+                destroyEnvironments(environments);
+                repopulate(history);
+                Debug.Log("Top Score: " + history.maxScore);
+
+
+                yield return new WaitForSeconds(1);
+
+            }
+            Debug.Log(history.bestPerGen);
+
+            yield return null;
+        }
+
+        /* Update is called once per frame
         void Update()
         {
 
         }
-
-
+        */
 
 
 

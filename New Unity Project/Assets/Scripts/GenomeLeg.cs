@@ -48,11 +48,31 @@ namespace New_Unity_Project.Assets.Scripts
             switch (Random.Range(0, 4))
             {
                 case 0:
-                    m += Random.Range(-0.1f, 0.1f);
+                    m += Random.Range(-0.2f, 0.2f);
                     m = Mathf.Clamp(m, -1f, +1f);
                     break;
                 case 1:
-                    M += Random.Range(-0.1f, 0.1f);
+                    M += Random.Range(-0.2f, 0.2f);
+                    M = Mathf.Clamp(M, -1f, +1f);
+                    break;
+                case 2:
+                    p += Random.Range(-0.25f, 0.25f);
+                    p = Mathf.Clamp(p, 0.1f, 2f);
+                    break;
+                case 3:
+                    o += Random.Range(-0.25f, 0.25f);
+                    o = Mathf.Clamp(o, -2f, 2f);
+                    break;
+            }
+
+            switch (Random.Range(0, 4))
+            {
+                case 0:
+                    m += Random.Range(-0.2f, 0.2f);
+                    m = Mathf.Clamp(m, -1f, +1f);
+                    break;
+                case 1:
+                    M += Random.Range(-0.2f, 0.2f);
                     M = Mathf.Clamp(M, -1f, +1f);
                     break;
                 case 2:
@@ -66,5 +86,7 @@ namespace New_Unity_Project.Assets.Scripts
             }
 
         }
+
     }
+
 }

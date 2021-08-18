@@ -33,37 +33,40 @@ namespace New_Unity_Project.Assets.Scripts
         }
 
 
-        public void Evaluate()
+        public void Evaluate(List<Environment> environments, Evolution evolution)
         {
             float max = -10000;
             float min = +10000;
-            float top25;
-            foreach (Genome genome in currentGeneration)
+            float totalScore = 0;
+            foreach (Environment environment in environments)
             {
 
-                if (genome.score > max)
+                if (environment.creature.genome.score > max)
                 {
-                    max = genome.score;
+                    max = environment.creature.genome.score;
                 }
 
-                if (genome.score < min)
+                if (environment.creature.genome.score < min)
                 {
-                    min = genome.score;
+                    min = environment.creature.genome.score;
                 }
+
+                totalScore += environment.creature.genome.score;
             }
 
-            top25 = (max - min) * 0.75f + min;
 
-            cutOffScore = top25;
+            //Debug.Log(max);
+            cutOffScore = (totalScore / evolution.creaturesPerGen) * 1.25f;//take the average and then multiply by 1.25 to get the top 25%.
             maxScore = max;
             minScore = min;
 
         }
 
-        // Update is called once per frame
+        /* Update is called once per frame
         void Update()
         {
 
         }
+        */
     }
 }

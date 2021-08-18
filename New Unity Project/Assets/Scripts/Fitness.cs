@@ -6,7 +6,7 @@ public class Fitness : MonoBehaviour
 {
 
     private Vector3 initialPosition;
-    private Rigidbody2D body;
+    public Rigidbody2D body;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,10 +25,10 @@ public class Fitness : MonoBehaviour
         float walkingScore = body.transform.position.x - initialPosition.x;//how far did the creature walk
 
         //check if the creature is balanced
-        bool bodyBalanced = body.transform.eulerAngles.z < 30 || body.transform.eulerAngles.z > 330;//less than 30 or greater than 360-30
-        bool bodyImBalanced = body.transform.eulerAngles.z < 135 && body.transform.eulerAngles.z > 225;//less than 180-45 and greater than 180+45
+        //bool bodyBalanced = body.transform.eulerAngles.z < 30 || body.transform.eulerAngles.z > 330;//less than 30 or greater than 360-30
+        //bool bodyImBalanced = body.transform.eulerAngles.z < 135 && body.transform.eulerAngles.z > 225;//less than 180-45 and greater than 180+45
 
-        float imBalancedMod;
+        /*float imBalancedMod;
         if (bodyImBalanced)
         {
             imBalancedMod = 0.5f;
@@ -45,8 +45,8 @@ public class Fitness : MonoBehaviour
         else
         {
             balancedMod = 1f;
-        }
+        }*/
 
-        return walkingScore * imBalancedMod + balancedMod;
+        return walkingScore /** imBalancedMod + balancedMod*/;
     }
 }

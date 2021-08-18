@@ -157,7 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5ee1f5851a86744ea6fd12b5c9cd38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  left: {fileID: 0}
-  right: {fileID: 0}
-  leftLeg: {fileID: 3796681117084115515, guid: 2bbdb13808946444f8fab64a29e96ec6, type: 3}
-  rightLeg: {fileID: 3809094794813403415, guid: 0ac8b03c45d7d0049b0a528a17e2bf53, type: 3}
+  left: {fileID: 6894568527977369694, guid: 2bbdb13808946444f8fab64a29e96ec6, type: 3}
+  right: {fileID: 3809094794813403438, guid: 0ac8b03c45d7d0049b0a528a17e2bf53, type: 3}
+  fitness: {fileID: 0}
