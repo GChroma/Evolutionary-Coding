@@ -20,7 +20,7 @@ namespace New_Unity_Project.Assets.Scripts
         public List<Environment> environments = new List<Environment>();
         public int creaturesPerGen = 100;
         public int testsPerCreature = 1;
-        public int creaturesSurvived = 10;
+        public int creaturesSurvived = 30;
         public int simulationLength = 10;//in seconds
         public int cycles = 10;
         public GameObject environmentContainer;
@@ -76,9 +76,9 @@ namespace New_Unity_Project.Assets.Scripts
             int cloneAmount = creaturesPerGen / creaturesSurvived;
             foreach (Genome genome in history.top25Genomes)
             {
-                history.currentGeneration.Add(genome);//keep one of the same
+                //history.currentGeneration.Add(genome);//keep one of the same
 
-                for (int i = 0; i < cloneAmount - 1; i++)//clone and mutate the rest
+                for (int i = 0; i < cloneAmount; i++)//clone and mutate the rest
                 {
                     Genome newGenome = genome.Clone();
                     newGenome.Mutate();
@@ -90,45 +90,34 @@ namespace New_Unity_Project.Assets.Scripts
 
         public void naturalSelection(EvolutionHistory history, List<Environment> environments)//moves the best 25% genomes to allow them to reproduce.
         {//also puts the top per the generation into a list
-            int counter = 0;
-            bool maxChosen = false;
+            bool topGenomeChosen = false;
             history.top25Genomes.Clear();
             history.Evaluate(environments, this);
-            Debug.Log("cutoff score " + history.cutOffScore);
+            environments.Sort(SortByScore);// Finish compare
             Debug.Log("max score " + history.maxScore);
             Debug.Log("min score " + history.minScore);
-
-            foreach (Environment environment in environments)
+            for (int i = 99; i > (99 - creaturesSurvived); i--)
             {
-                //Debug.Log("Genome score: " + environment.creature.genome.score);
-                if (counter == creaturesSurvived)
+                if (topGenomeChosen == false)
                 {
-                    break;
+                    history.bestPerGen.Add(environments[i].creature.genome);
+                    Debug.Log("max score if sorted properly " + environments[i].creature.genome.score);
+                    topGenomeChosen = true;
                 }
-
-                if (environment.creature.genome.score >= history.cutOffScore)
-                {
-                    history.top25Genomes.Add(environment.creature.genome);
-                    counter++;
-                }
-
-                if (environment.creature.genome.score == history.maxScore && maxChosen == false)
-                {
-                    history.bestPerGen.Add(environment.creature.genome);
-                    maxChosen = true;
-
-                }
-
+                history.top25Genomes.Add(environments[i].creature.genome);
             }
-            Debug.Log("Number survived " + history.top25Genomes.Count);
+        }
 
+        static int SortByScore(Environment e1, Environment e2)
+        {
+            return e1.creature.genome.score.CompareTo(e2.creature.genome.score);
         }
 
         public IEnumerator Simulation()
         {
             for (int i = 0; i < cycles; i++)
             {
-                Debug.Log("Cycle: " + i);
+                Debug.Log("Cycle: " + (i + 1));
                 createEnvironments(history, environments);
                 yield return new WaitForSeconds(simulationLength);
 

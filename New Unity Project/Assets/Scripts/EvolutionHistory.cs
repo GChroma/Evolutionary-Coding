@@ -15,7 +15,7 @@ namespace New_Unity_Project.Assets.Scripts
 
         public float maxScore;
         public float minScore;
-        public float cutOffScore;
+        //public float cutOffScore;
         public List<Genome> bestPerGen = new List<Genome>();//list of the best genome for each generation
 
         // Start is called before the first frame update
@@ -56,11 +56,55 @@ namespace New_Unity_Project.Assets.Scripts
 
 
             //Debug.Log(max);
-            cutOffScore = (totalScore / evolution.creaturesPerGen) * 1.25f;//take the average and then multiply by 1.25 to get the top 25%.
+            //cutOffScore = (totalScore / evolution.creaturesPerGen) * 1.25f;//take the average and then multiply by 1.25 to get the top 25%.
             maxScore = max;
             minScore = min;
 
         }
+
+        //Not working quicksort algorithm.
+        /*        static public int Partition(List<Environment> environments, int left, int right)
+                {
+                    float pivot;
+                    pivot = environments[left].creature.genome.score;
+                    while (true)
+                    {
+                        while (environments[left].creature.genome.score < pivot)
+                        {
+                            left++;
+                        }
+                        while (environments[right].creature.genome.score > pivot)
+                        {
+                            right--;
+                        }
+                        if (left < right)
+                        {
+                            Environment temp = environments[right];
+                            environments[right] = environments[left];
+                            environments[left] = temp;
+                        }
+                        else
+                        {
+                            return right;
+                        }
+                    }
+                }
+                public void QuickSort(List<Environment> environments, int left, int right)
+                {
+                    float pivot;
+                    if (left < right)
+                    {
+                        pivot = Partition(environments, left, right);
+                        if (pivot > 1)
+                        {
+                            QuickSort(environments, left, (int)(pivot) + 1);
+                        }
+                        if (pivot + 1 < right)
+                        {
+                            QuickSort(environments, (int)(pivot) + 1, right);
+                        }
+                    }
+                }*/
 
         /* Update is called once per frame
         void Update()
